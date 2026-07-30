@@ -991,8 +991,8 @@ function ContactSection() {
     },
     {
       label: "LinkedIn Professional",
-      handle: "sajith-ahamed-fakrudeen-a704a4313",
-      href: "https://www.linkedin.com/in/sajith-ahamed-fakrudeen-a704a4313",
+      handle: "sajith-ahamed-fakrudeen-8997902b2",
+      href: "https://www.linkedin.com/in/sajith-ahamed-fakrudeen-8997902b2",
       icon: Linkedin,
       accent: "electricYellow"
     },
