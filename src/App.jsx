@@ -24,7 +24,9 @@ import {
   ChevronDown,
   Zap,
   Activity,
-  Camera
+  Camera,
+  Menu,
+  X
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import casualPortrait from "../ChatGPT Image Jul 29, 2026, 09_16_56 PM.png";
@@ -76,7 +78,7 @@ function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "-20px 0px -40px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
     );
 
     const elements = containerRef.current?.querySelectorAll(".reveal-on-scroll, .reveal-left, .reveal-right");
@@ -373,12 +375,12 @@ function HeroSection({ scrollY }) {
             </div>
 
             <div className="animate-hero-headline relative">
-              <h1 className="max-w-6xl text-6xl font-black uppercase tracking-tighter leading-[0.88] text-white sm:text-8xl md:text-9xl lg:text-[9.5rem]">
+              <h1 className="max-w-6xl text-4xl sm:text-7xl md:text-8xl lg:text-[9.5rem] font-black uppercase tracking-tighter leading-[0.9] text-white">
                 BEHIND THE CODE
               </h1>
 
               <h1
-                className="absolute inset-0 max-w-6xl text-6xl font-black uppercase tracking-tighter leading-[0.88] sm:text-8xl md:text-9xl lg:text-[9.5rem] pointer-events-none transition-all duration-75 text-stroke-white text-transparent bg-clip-text bg-gradient-to-r from-milkGreen via-white to-electricYellow drop-shadow-glow"
+                className="absolute inset-0 max-w-6xl text-4xl sm:text-7xl md:text-8xl lg:text-[9.5rem] font-black uppercase tracking-tighter leading-[0.9] pointer-events-none transition-all duration-75 text-stroke-white text-transparent bg-clip-text bg-gradient-to-r from-milkGreen via-white to-electricYellow drop-shadow-glow"
                 style={{ clipPath: getClipPath() }}
               >
                 <span className="text-milkGreen">BEHIND </span>
@@ -386,11 +388,11 @@ function HeroSection({ scrollY }) {
               </h1>
             </div>
 
-            <p className="animate-hero-sub mt-4 max-w-3xl text-lg font-bold tracking-wide text-zinc-200 sm:text-2xl drop-shadow-md">
+            <p className="animate-hero-sub mt-4 max-w-3xl text-base font-bold tracking-wide text-zinc-200 sm:text-2xl drop-shadow-md">
               Sajith Ahamed Fakrudeen — AI/ML Engineer &amp; Developer
             </p>
 
-            <div className="animate-hero-buttons mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="animate-hero-buttons mt-6 flex flex-col gap-3.5 sm:flex-row sm:items-center">
               <a
                 href="#about"
                 className="inline-flex items-center justify-center gap-2.5 border border-milkGreen bg-milkGreen px-7 py-3.5 text-sm font-black uppercase tracking-wider text-black shadow-glow transition hover:scale-105 hover:bg-white"
@@ -407,9 +409,13 @@ function HeroSection({ scrollY }) {
                 <Mail size={18} strokeWidth={2.5} />
               </a>
 
-              <div className="ml-auto hidden lg:flex items-center gap-2 text-xs font-mono text-electricYellow">
+              <div className="hidden lg:flex ml-auto items-center gap-2 text-xs font-mono text-electricYellow">
                 <MousePointer2 size={14} className="animate-bounce text-milkGreen" />
                 <span>SWEEP CURSOR LEFT/RIGHT TO REVEAL HYBRID TEXT &amp; BLAZER PORTRAIT</span>
+              </div>
+              <div className="flex lg:hidden items-center gap-2 text-[10px] font-mono text-electricYellow mt-1">
+                <MousePointer2 size={12} className="animate-pulse text-milkGreen" />
+                <span>DRAG / TOUCH LEFT &amp; RIGHT TO SWIPE DUAL PORTRAIT</span>
               </div>
             </div>
 
@@ -659,6 +665,7 @@ const galleryImages = [
 
 function GallerySection() {
   const [active, setActive] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
   const total = galleryImages.length;
 
   useEffect(() => {
@@ -671,18 +678,33 @@ function GallerySection() {
   const goNext = () => setActive((prev) => (prev + 1) % total);
   const goPrev = () => setActive((prev) => (prev - 1 + total) % total);
 
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const diffX = touchStartX - e.changedTouches[0].clientX;
+    if (diffX > 40) {
+      goNext();
+    } else if (diffX < -40) {
+      goPrev();
+    }
+    setTouchStartX(null);
+  };
+
   const isYellow = active % 2 === 1;
   const tagColor = isYellow ? "text-electricYellow border-electricYellow/50 bg-electricYellow/10 shadow-glow-yellow" : "text-milkGreen border-milkGreen/50 bg-milkGreen/10 shadow-glow";
   const barColor = isYellow ? "bg-electricYellow shadow-glow-yellow" : "bg-milkGreen shadow-glow";
   const borderLeftColor = isYellow ? "border-electricYellow/60" : "border-milkGreen/60";
 
   return (
-    <section className="bg-carbon px-5 py-28 sm:px-8 lg:px-12">
+    <section className="bg-carbon px-4 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
           <div className="reveal-on-scroll">
             <SectionLabel number="02.5" yellow={isYellow}>Gallery / Moments</SectionLabel>
-            <h2 className="text-4xl font-black uppercase tracking-tighter leading-none text-white sm:text-5xl lg:text-6xl">
+            <h2 className="text-3xl font-black uppercase tracking-tighter leading-none text-white sm:text-5xl lg:text-6xl">
               Beyond The Screen.
             </h2>
             <p className="mt-4 max-w-md text-sm leading-6 font-medium text-zinc-400">
@@ -694,7 +716,7 @@ function GallerySection() {
                 <Camera size={10} />
                 {galleryImages[active].tag}
               </span>
-              <p className="text-2xl font-black uppercase tracking-tight text-white">
+              <p className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
                 {galleryImages[active].caption}
               </p>
             </div>
@@ -703,6 +725,7 @@ function GallerySection() {
               <button
                 type="button"
                 onClick={goPrev}
+                aria-label="Previous image"
                 className="grid h-11 w-11 place-items-center border border-white/15 bg-white/5 text-white transition hover:border-milkGreen hover:bg-milkGreen hover:text-black"
               >
                 <ChevronDown size={18} className="rotate-90" />
@@ -713,6 +736,7 @@ function GallerySection() {
                     key={i}
                     type="button"
                     onClick={() => setActive(i)}
+                    aria-label={`Go to slide ${i + 1}`}
                     className={`h-2 rounded-full transition-all duration-300 ${
                       i === active
                         ? i % 2 === 1
@@ -726,6 +750,7 @@ function GallerySection() {
               <button
                 type="button"
                 onClick={goNext}
+                aria-label="Next image"
                 className="grid h-11 w-11 place-items-center border border-white/15 bg-white/5 text-white transition hover:border-electricYellow hover:bg-electricYellow hover:text-black"
               >
                 <ChevronDown size={18} className="-rotate-90" />
@@ -736,7 +761,12 @@ function GallerySection() {
             </div>
           </div>
 
-          <div className="reveal-on-scroll relative flex items-center justify-center" style={{ perspective: "1200px", height: "480px" }}>
+          <div
+            className="reveal-on-scroll relative flex items-center justify-center pt-6 lg:pt-0"
+            style={{ perspective: "1200px", height: "440px" }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {galleryImages.map((image, i) => {
               const offset = (i - active + total) % total;
               const isActive = offset === 0;
@@ -748,16 +778,16 @@ function GallerySection() {
               return (
                 <div
                   key={image.caption}
-                  className="absolute w-[320px] h-[430px] sm:w-[360px] sm:h-[470px] cursor-pointer overflow-hidden border border-white/10 bg-black/50 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                  className="absolute w-[275px] h-[375px] sm:w-[350px] sm:h-[450px] cursor-pointer overflow-hidden border border-white/10 bg-black/50 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
                   style={{
                     zIndex: isActive ? 30 : isBehind1 ? 20 : isBehind2 ? 10 : 0,
                     transform: isActive
                       ? "translateZ(0px) translateX(0px) rotateY(0deg) scale(1)"
                       : isBehind1
-                      ? "translateZ(-60px) translateX(40px) rotateY(-6deg) scale(0.92)"
+                      ? "translateZ(-60px) translateX(30px) rotateY(-6deg) scale(0.92)"
                       : isBehind2
-                      ? "translateZ(-120px) translateX(80px) rotateY(-12deg) scale(0.84)"
-                      : "translateZ(-180px) translateX(120px) rotateY(-18deg) scale(0.76)",
+                      ? "translateZ(-120px) translateX(60px) rotateY(-12deg) scale(0.84)"
+                      : "translateZ(-180px) translateX(90px) rotateY(-18deg) scale(0.76)",
                     opacity: isVisible ? (isActive ? 1 : isBehind1 ? 0.6 : 0.3) : 0,
                     pointerEvents: isActive ? "auto" : "none",
                     filter: isActive ? "none" : `blur(${offset * 1.5}px)`,
@@ -788,7 +818,7 @@ function GallerySection() {
 
                   {isActive && (
                     <div className="absolute bottom-0 inset-x-0 p-5">
-                      <p className="text-xl font-black uppercase tracking-tight text-white drop-shadow-lg">
+                      <p className="text-lg sm:text-xl font-black uppercase tracking-tight text-white drop-shadow-lg">
                         {image.caption}
                       </p>
                       <div className={`mt-2 h-0.5 w-16 ${barColor}`} />
@@ -1399,8 +1429,19 @@ function ImmersivePreloader({ onComplete }) {
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollProgress, scrollY } = useScrollState();
   const mainRef = useScrollReveal();
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -1413,7 +1454,7 @@ export default function App() {
           />
 
           <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8">
-            <a href="#top" className="group flex items-center gap-3">
+            <a href="#top" onClick={closeMobileMenu} className="group flex items-center gap-3">
               <span className="grid h-9 w-9 place-items-center border border-milkGreen bg-milkGreen text-sm font-black text-black shadow-glow transition group-hover:scale-105">
                 28
               </span>
@@ -1442,15 +1483,77 @@ export default function App() {
               </a>
             </div>
 
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 border border-electricYellow bg-electricYellow px-4 py-2 text-xs font-black uppercase tracking-wider text-black shadow-glow-yellow transition hover:scale-105 hover:bg-white"
-            >
-              <Mail size={14} strokeWidth={2.5} />
-              <span>Connect</span>
-            </a>
+            <div className="flex items-center gap-3">
+              <a
+                href="#contact"
+                className="hidden xs:inline-flex items-center gap-2 border border-electricYellow bg-electricYellow px-4 py-2 text-xs font-black uppercase tracking-wider text-black shadow-glow-yellow transition hover:scale-105 hover:bg-white"
+              >
+                <Mail size={14} strokeWidth={2.5} />
+                <span>Connect</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="grid h-9 w-9 place-items-center border border-white/20 bg-white/5 text-white transition hover:border-milkGreen hover:text-milkGreen md:hidden"
+                aria-label="Toggle navigation menu"
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </nav>
         </header>
+
+        {/* Mobile Navigation Cyber-Drawer */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-40 flex flex-col bg-black/95 backdrop-blur-2xl md:hidden font-mono pt-16 border-b border-white/10 animate-fade-in">
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <div className="flex items-center gap-2 text-xs text-milkGreen font-bold uppercase">
+                <Radio size={14} className="animate-pulse" />
+                <span>NAVIGATION TELEMETRY</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 uppercase">// CORE #28</span>
+            </div>
+
+            <div className="flex flex-1 flex-col justify-center px-8 py-8 space-y-5">
+              {[
+                { name: "Identity", href: "#about", num: "01" },
+                { name: "Projects", href: "#projects", num: "02" },
+                { name: "Experience", href: "#experience", num: "03" },
+                { name: "Contact", href: "#contact", num: "05" }
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={closeMobileMenu}
+                  className="group flex items-center justify-between border-b border-white/10 pb-3.5 text-2xl font-black uppercase tracking-wider text-white transition hover:text-electricYellow"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="text-xs font-mono text-milkGreen font-bold">[{item.num}]</span>
+                    <span>{item.name}</span>
+                  </span>
+                  <ArrowUpRight size={20} className="text-zinc-500 transition group-hover:text-electricYellow group-hover:translate-x-1" />
+                </a>
+              ))}
+
+              <div className="pt-4 flex flex-col gap-3">
+                <a
+                  href="#contact"
+                  onClick={closeMobileMenu}
+                  className="flex items-center justify-center gap-2 border-2 border-electricYellow bg-electricYellow px-6 py-3.5 text-xs font-black uppercase tracking-wider text-black shadow-glow-yellow"
+                >
+                  <Mail size={16} />
+                  <span>Transmit Message</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 px-6 py-4 text-[10px] uppercase text-zinc-500 flex justify-between items-center">
+              <span>SYSTEM ONLINE</span>
+              <span>CHENNAI, INDIA</span>
+            </div>
+          </div>
+        )}
 
         <HeroSection scrollY={scrollY} />
         <SectionTransitionDivider />

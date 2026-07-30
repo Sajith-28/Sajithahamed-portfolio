@@ -296,6 +296,39 @@ body::selection {
   animation: pulse-track 2.2s ease-in-out infinite;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile & Touch Screen Adaptations */
+@media (max-width: 768px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(30px) scale(0.98);
+  }
+
+  .reveal-left.reveal-visible,
+  .reveal-right.reveal-visible {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Tap target sizing for touch ergonomics */
+  button, a, input, textarea {
+    touch-action: manipulation;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
