@@ -46,12 +46,20 @@ function useScrollState() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollY(currentScrollY);
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        setScrollProgress((currentScrollY / totalHeight) * 100);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          // Only update state if change is noticeable (prevents micro re-renders)
+          setScrollY(currentScrollY);
+          const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+          if (totalHeight > 0) {
+            setScrollProgress((currentScrollY / totalHeight) * 100);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -251,81 +259,79 @@ function GlassPanel({ children, className = "", delay = 0, yellowHover = false }
 }
 
 function HeroSection({ scrollY }) {
-  const [cursorPos, setCursorPos] = useState({ x: 50, y: 50 });
-  const [isHovered, setIsHovered] = useState(false);
   const heroRef = useRef(null);
+  const blazerRef = useRef(null);
+  const blazerTextRef = useRef(null);
+  const indicatorRef = useRef(null);
+  const isInteracting = useRef(false);
 
-  const handlePointerMove = useCallback((clientX, clientY) => {
-    if (!heroRef.current) return;
+  const updatePosition = useCallback((clientX) => {
+    if (!heroRef.current || !blazerRef.current || !indicatorRef.current) return;
     const bounds = heroRef.current.getBoundingClientRect();
-    const x = ((clientX - bounds.left) / bounds.width) * 100;
-    const y = ((clientY - bounds.top) / bounds.height) * 100;
-    setCursorPos({
-      x: Math.min(Math.max(x, 0), 100),
-      y: Math.min(Math.max(y, 0), 100)
-    });
+    const x = Math.min(Math.max(((clientX - bounds.left) / bounds.width) * 100, 0), 100);
+    const clip = `polygon(calc(${x}% - 14%) 0%, calc(${x}% + 14%) 0%, calc(${x}% + 14%) 100%, calc(${x}% - 14%) 100%)`;
+    
+    blazerRef.current.style.clipPath = clip;
+    if (blazerTextRef.current) {
+      blazerTextRef.current.style.clipPath = clip;
+    }
+    indicatorRef.current.style.left = `${x}%`;
   }, []);
 
-  const handleMouseMove = (event) => {
-    setIsHovered(true);
-    handlePointerMove(event.clientX, event.clientY);
+  const handlePointerMove = (e) => {
+    isInteracting.current = true;
+    updatePosition(e.clientX);
   };
 
-  const handleTouchMove = (event) => {
-    if (!event.touches?.length) return;
-    setIsHovered(true);
-    handlePointerMove(event.touches[0].clientX, event.touches[0].clientY);
+  const handleTouchMove = (e) => {
+    if (!e.touches?.length) return;
+    isInteracting.current = true;
+    updatePosition(e.touches[0].clientX);
   };
 
   useEffect(() => {
-    if (isHovered) return undefined;
-
     let startTime = performance.now();
-    let animationFrameId;
+    let animId;
 
     const animateIdle = (now) => {
-      const elapsed = (now - startTime) / 1000;
-      const x = 50 + Math.sin(elapsed * 0.9) * 25;
-      const y = 50;
-      setCursorPos({ x, y });
-      animationFrameId = requestAnimationFrame(animateIdle);
+      if (!isInteracting.current && blazerRef.current && indicatorRef.current && heroRef.current) {
+        const elapsed = (now - startTime) / 1000;
+        const x = 50 + Math.sin(elapsed * 0.8) * 22;
+        const clip = `polygon(calc(${x}% - 14%) 0%, calc(${x}% + 14%) 0%, calc(${x}% + 14%) 100%, calc(${x}% - 14%) 100%)`;
+        blazerRef.current.style.clipPath = clip;
+        if (blazerTextRef.current) {
+          blazerTextRef.current.style.clipPath = clip;
+        }
+        indicatorRef.current.style.left = `${x}%`;
+      }
+      animId = requestAnimationFrame(animateIdle);
     };
 
-    animationFrameId = requestAnimationFrame(animateIdle);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isHovered]);
+    animId = requestAnimationFrame(animateIdle);
+    return () => cancelAnimationFrame(animId);
+  }, []);
 
-  const getClipPath = () => {
-    const { x } = cursorPos;
-    return `polygon(
-      calc(${x}% - 14%) 0%,
-      calc(${x}% + 14%) 0%,
-      calc(${x}% + 14%) 100%,
-      calc(${x}% - 14%) 100%
-    )`;
-  };
-
-  const heroProgress = Math.min(scrollY / (window.innerHeight || 800), 1);
+  // Performance optimized parallax: stop calculations when scrolled out of view
+  const heroProgress = scrollY < 900 ? Math.min(scrollY / (window.innerHeight || 800), 1) : 1;
   const heroScale = 1 - heroProgress * 0.08;
   const heroOpacity = 1 - heroProgress * 0.6;
-  const heroBlur = heroProgress * 6;
 
   return (
     <section
       ref={heroRef}
-      className="relative h-screen min-h-[700px] w-full cursor-none overflow-hidden bg-carbon select-none"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative h-screen min-h-[640px] w-full cursor-default md:cursor-none overflow-hidden bg-carbon select-none"
+      onMouseMove={handlePointerMove}
+      onMouseEnter={() => { isInteracting.current = true; }}
+      onMouseLeave={() => { isInteracting.current = false; }}
       onTouchMove={handleTouchMove}
-      onTouchStart={() => setIsHovered(true)}
+      onTouchStart={() => { isInteracting.current = true; }}
     >
       <div
         className="hero-scroll-wrapper relative h-full w-full"
         style={{
-          transform: `scale(${heroScale}) translateY(${scrollY * 0.15}px)`,
+          transform: `scale(${heroScale}) translateY(${scrollY * 0.12}px)`,
           opacity: heroOpacity,
-          filter: `blur(${heroBlur}px)`
+          willChange: "transform, opacity"
         }}
       >
         <img
@@ -336,11 +342,12 @@ function HeroSection({ scrollY }) {
         />
 
         <img
+          ref={blazerRef}
           src={blazerPortrait}
           alt="Sajith Ahamed Fakrudeen (Professional Blazer)"
-          className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none transition-all duration-100 ease-out"
+          className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none transition-all duration-75 ease-out"
           draggable="false"
-          style={{ clipPath: getClipPath() }}
+          style={{ clipPath: "polygon(36% 0%, 64% 0%, 64% 100%, 36% 100%)" }}
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70 pointer-events-none" />
@@ -354,8 +361,9 @@ function HeroSection({ scrollY }) {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 z-30 transition-all duration-100 ease-out"
-          style={{ left: `${cursorPos.x}%` }}
+          ref={indicatorRef}
+          className="pointer-events-none absolute inset-y-0 z-30 transition-all duration-75 ease-out"
+          style={{ left: "50%" }}
         >
           <div className="relative h-full w-1 -translate-x-1/2 bg-electricYellow shadow-glow-yellow">
             <div className="absolute top-1/2 -left-16 -translate-y-1/2 border border-electricYellow bg-black/90 px-3 py-1 font-mono text-[10px] font-black uppercase tracking-widest text-electricYellow backdrop-blur-md shadow-glow-yellow">
@@ -380,8 +388,9 @@ function HeroSection({ scrollY }) {
               </h1>
 
               <h1
+                ref={blazerTextRef}
                 className="absolute inset-0 max-w-6xl text-4xl sm:text-7xl md:text-8xl lg:text-[9.5rem] font-black uppercase tracking-tighter leading-[0.9] pointer-events-none transition-all duration-75 text-stroke-white text-transparent bg-clip-text bg-gradient-to-r from-milkGreen via-white to-electricYellow drop-shadow-glow"
-                style={{ clipPath: getClipPath() }}
+                style={{ clipPath: "polygon(36% 0%, 64% 0%, 64% 100%, 36% 100%)" }}
               >
                 <span className="text-milkGreen">BEHIND </span>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-milkGreen via-white to-electricYellow">THE CODE</span>

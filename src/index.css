@@ -311,11 +311,11 @@ body::selection {
   animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Mobile & Touch Screen Adaptations */
+/* Mobile GPU & Scroll Performance Optimizations */
 @media (max-width: 768px) {
   .reveal-left,
   .reveal-right {
-    transform: translateY(30px) scale(0.98);
+    transform: translateY(20px) scale(0.98);
   }
 
   .reveal-left.reveal-visible,
@@ -323,9 +323,31 @@ body::selection {
     transform: translateY(0) scale(1);
   }
 
+  /* Disable expensive backdrop-blur on mobile GPUs to eliminate scroll lag */
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-md {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(10, 14, 20, 0.95) !important;
+  }
+
+  /* Faster transition timing for mobile touch responsiveness */
+  .reveal-on-scroll,
+  .reveal-left,
+  .reveal-right {
+    transition-duration: 0.45s !important;
+  }
+
   /* Tap target sizing for touch ergonomics */
   button, a, input, textarea {
     touch-action: manipulation;
+  }
+
+  /* Enable hardware acceleration for mobile compositing */
+  img, section, footer, main {
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 
