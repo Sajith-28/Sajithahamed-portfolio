@@ -1317,23 +1317,23 @@ function ImmersivePreloader({ onComplete }) {
 
       {/* Left Cyber Shutter Panel */}
       <div
-        className={`shutter-panel-left absolute top-0 bottom-0 left-0 w-1/2 bg-[#05070a] z-40 ${
+        className={`shutter-panel-left absolute top-0 bottom-0 left-0 w-1/2 bg-[#0A0A0F] z-40 ${
           isLeaving ? "shutter-open-left" : "translate-x-0"
         }`}
         style={{
-          borderRight: isLeaving ? "none" : `1px solid rgba(0, 255, 157, ${Math.min(progress / 80, 0.6)})`,
-          boxShadow: isLeaving ? "0 0 80px rgba(0, 255, 157, 0.7)" : `0 0 ${(progress / 100) * 50}px rgba(0, 255, 157, ${(progress / 100) * 0.4})`
+          borderRight: isLeaving ? "none" : `1px solid rgba(0, 240, 255, ${Math.min(progress / 80, 0.6)})`,
+          boxShadow: isLeaving ? "0 0 80px rgba(0, 240, 255, 0.7)" : `0 0 ${(progress / 100) * 50}px rgba(0, 240, 255, ${(progress / 100) * 0.4})`
         }}
       />
 
       {/* Right Cyber Shutter Panel */}
       <div
-        className={`shutter-panel-right absolute top-0 bottom-0 right-0 w-1/2 bg-[#05070a] z-40 ${
+        className={`shutter-panel-right absolute top-0 bottom-0 right-0 w-1/2 bg-[#0A0A0F] z-40 ${
           isLeaving ? "shutter-open-right" : "translate-x-0"
         }`}
         style={{
-          borderLeft: isLeaving ? "none" : `1px solid rgba(232, 227, 55, ${Math.min(progress / 80, 0.6)})`,
-          boxShadow: isLeaving ? "0 0 80px rgba(232, 227, 55, 0.7)" : `0 0 ${(progress / 100) * 50}px rgba(232, 227, 55, ${(progress / 100) * 0.4})`
+          borderLeft: isLeaving ? "none" : `1px solid rgba(255, 0, 110, ${Math.min(progress / 80, 0.6)})`,
+          boxShadow: isLeaving ? "0 0 80px rgba(255, 0, 110, 0.7)" : `0 0 ${(progress / 100) * 50}px rgba(255, 0, 110, ${(progress / 100) * 0.4})`
         }}
       />
 

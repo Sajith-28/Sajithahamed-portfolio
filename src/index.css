@@ -4,44 +4,44 @@
 @tailwind utilities;
 
 :root {
-  --color-racing: #00ff9d;
-  --color-racing-rgb: 0, 255, 157;
-  --color-glow: rgba(0, 255, 157, 0.4);
-  --color-yellow: #e8e337;
+  --color-racing: #00F0FF;
+  --color-racing-rgb: 0, 240, 255;
+  --color-glow: rgba(0, 240, 255, 0.4);
+  --color-yellow: #FF006E;
 }
 
 [data-theme] {
-  --color-racing: #00ff9d;
-  --color-racing-rgb: 0, 255, 157;
-  --color-glow: rgba(0, 255, 157, 0.4);
+  --color-racing: #00F0FF;
+  --color-racing-rgb: 0, 240, 255;
+  --color-glow: rgba(0, 240, 255, 0.4);
 }
 
 .bg-milkGreen {
-  background-color: #00ff9d !important;
+  background-color: #00F0FF !important;
 }
 
 .border-milkGreen {
-  border-color: #00ff9d !important;
+  border-color: #00F0FF !important;
 }
 
 .text-milkGreen {
-  color: #00ff9d !important;
+  color: #00F0FF !important;
 }
 
 .bg-electricYellow {
-  background-color: #e8e337 !important;
+  background-color: #FF006E !important;
 }
 
 .border-electricYellow {
-  border-color: #e8e337 !important;
+  border-color: #FF006E !important;
 }
 
 .text-electricYellow {
-  color: #e8e337 !important;
+  color: #FF006E !important;
 }
 
 .shadow-glow-yellow {
-  box-shadow: 0 0 35px rgba(232, 227, 55, 0.4);
+  box-shadow: 0 0 35px rgba(255, 0, 110, 0.4);
 }
 
 * {
@@ -50,7 +50,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: #05070a;
+  background: #0A0A0F;
 }
 
 body {
@@ -58,9 +58,9 @@ body {
   min-width: 320px;
   background:
     radial-gradient(circle at 18% 8%, rgba(var(--color-racing-rgb), 0.15), transparent 28rem),
-    radial-gradient(circle at 82% 32%, rgba(20, 184, 166, 0.08), transparent 24rem),
-    #05070a;
-  color: #f8fafc;
+    radial-gradient(circle at 82% 32%, rgba(255, 0, 110, 0.08), transparent 24rem),
+    #0A0A0F;
+  color: #F5F5F5;
   font-family: Inter, Roboto, ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
@@ -356,12 +356,12 @@ body::selection {
 }
 
 ::-webkit-scrollbar-track {
-  background: #05070a;
+  background: #0A0A0F;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
-  border: 2px solid #05070a;
+  border: 2px solid #0A0A0F;
   border-radius: 999px;
 }
 

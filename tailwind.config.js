@@ -4,24 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        carbon: "#05070a",
-        panel: "#0b0e14",
-        racing: "#00ff9d",
-        milkGreen: "#00ff9d",
-        electricYellow: "#e8e337",
-        cyanNeon: "#00ff9d",
-        emeraldNeon: "#00ff9d",
-        violetNeon: "#bf55ff",
-        crimsonNeon: "#ff0055"
+        carbon: "#0A0A0F",
+        panel: "#12121A",
+        racing: "#00F0FF",
+        milkGreen: "#00F0FF",
+        electricYellow: "#FF006E",
+        cyanNeon: "#00F0FF",
+        emeraldNeon: "#00F0FF",
+        violetNeon: "#FF006E",
+        crimsonNeon: "#FF006E"
       },
       fontFamily: {
         sans: ["Inter", "Roboto", "ui-sans-serif", "system-ui", "sans-serif"],
         helvetica: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"]
       },
       boxShadow: {
-        glow: "0 0 40px rgba(0, 255, 157, 0.35)",
-        "glow-yellow": "0 0 40px rgba(232, 227, 55, 0.35)",
-        line: "0 0 28px rgba(0, 255, 157, 0.8)"
+        glow: "0 0 40px rgba(0, 240, 255, 0.35)",
+        "glow-yellow": "0 0 40px rgba(255, 0, 110, 0.35)",
+        line: "0 0 28px rgba(0, 240, 255, 0.8)"
       },
       backgroundImage: {
         "carbon-grid":
