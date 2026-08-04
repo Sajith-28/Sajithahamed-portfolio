@@ -210,7 +210,7 @@ const projects = [
 
 const experiences = [
   {
-    role: "Software Development Intern",
+    role: "AI Forward Intern",
     company: "Quodeworks",
     location: "Chennai, TN",
     period: "Internship",
