@@ -1942,9 +1942,9 @@ function ExperienceSection() {
           </span>
         </div>
 
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2 items-start">
           {/* LEFT: Industry Experience — blockchain-style timeline */}
-          <div className="reveal-left hud-frame relative flex flex-col justify-between border border-white/10 bg-black/40 p-7 backdrop-blur-md sm:p-9 clip-cyber">
+          <div className="reveal-left hud-frame relative flex flex-col justify-start h-full border border-white/10 bg-black/40 p-7 backdrop-blur-md sm:p-9 clip-cyber">
             <div className="holo-shimmer pointer-events-none absolute inset-0" />
             <div className="relative">
               <SectionLabel number="03">Professional Path</SectionLabel>
@@ -2009,7 +2009,7 @@ function ExperienceSection() {
           </div>
 
           {/* RIGHT: Certifications — credential chips */}
-          <div className="reveal-right hud-frame hud-frame-yellow relative flex flex-col justify-between border border-white/10 bg-black/40 p-7 backdrop-blur-md sm:p-9 clip-cyber">
+          <div className="reveal-right hud-frame hud-frame-yellow relative flex flex-col justify-start h-full border border-white/10 bg-black/40 p-7 backdrop-blur-md sm:p-9 clip-cyber">
             <div className="holo-shimmer pointer-events-none absolute inset-0" />
             <div className="relative">
               <SectionLabel number="04" yellow>Verified Skills</SectionLabel>
