@@ -95,29 +95,52 @@ function useScrollState() {
   return { scrollProgress, scrollY };
 }
 
-// Custom Hook for Bidirectional Scroll Reveal & Reverse Animations
+// Custom Hook for Bidirectional Scroll Reveal & Reverse Animations (Scroll Up & Down)
 function useScrollReveal() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("reveal-visible");
-          } else {
-            // REVERSE ANIMATION: Remove reveal class when scrolling out of view
-            entry.target.classList.remove("reveal-visible");
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
-    );
+    let observer;
 
-    const elements = containerRef.current?.querySelectorAll(".reveal-on-scroll, .reveal-left, .reveal-right");
-    elements?.forEach((el) => observer.observe(el));
+    const setupObserver = () => {
+      if (observer) observer.disconnect();
 
-    return () => observer.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-visible");
+            } else {
+              // REVERSE ANIMATION: Reset reveal class when element leaves viewport
+              // allows smooth re-triggering when scrolling up or down
+              entry.target.classList.remove("reveal-visible");
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -30px 0px" }
+      );
+
+      const selector = ".reveal-on-scroll, .reveal-left, .reveal-right, .reveal-zoom, .reveal-card";
+      const elements = containerRef.current?.querySelectorAll(selector);
+      elements?.forEach((el) => observer.observe(el));
+    };
+
+    setupObserver();
+    const timer = setTimeout(setupObserver, 150);
+
+    const mutationObserver = new MutationObserver(() => {
+      setupObserver();
+    });
+
+    if (containerRef.current) {
+      mutationObserver.observe(containerRef.current, { childList: true, subtree: true });
+    }
+
+    return () => {
+      clearTimeout(timer);
+      if (observer) observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return containerRef;
@@ -2097,7 +2120,7 @@ function ExperienceSection() {
                     </>
                   );
 
-                  const cardClassName = `group relative clip-cyber-sm flex flex-col justify-between border border-white/10 bg-black/40 p-5 transition duration-300 hover-3d ${
+                  const cardClassName = `reveal-card reveal-delay-${(idx % 3) + 1} group relative clip-cyber-sm flex flex-col justify-between border border-white/10 bg-black/40 p-5 transition duration-300 hover-3d ${
                     isYellow ? "hover:border-electricYellow/70 hover:bg-electricYellow/10" : "hover:border-milkGreen/70 hover:bg-milkGreen/10"
                   }`;
 
@@ -2126,7 +2149,7 @@ function ExperienceSection() {
         </div>
 
         {/* FEATURED ACHIEVEMENT BADGE — Full-width showcase */}
-        <div className="reveal-on-scroll mt-10">
+        <div className="reveal-zoom mt-10">
           <div className="relative overflow-hidden border border-yellow-500/30 bg-black/60 backdrop-blur-xl clip-cyber"
                style={{ boxShadow: '0 0 40px rgba(234, 179, 8, 0.12), inset 0 0 60px rgba(234, 179, 8, 0.03)' }}>
             {/* Animated corner brackets */}
