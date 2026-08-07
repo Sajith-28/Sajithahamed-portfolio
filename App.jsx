@@ -215,7 +215,12 @@ const experiences = [
     company: "Quodeworks",
     location: "Chennai, TN",
     period: "Present",
-    details: "Building Python backend services & REST APIs with FastAPI, MongoDB, and Azure, while developing n8n workflows and AI automation solutions.",
+    details: "Building high-performance Python backend services and AI automation pipelines.",
+    highlights: [
+      "Engineered microservices & REST APIs using FastAPI, Python, and MongoDB with Azure cloud integration.",
+      "Developed automated n8n workflows and AI-driven systems for enterprise process orchestration.",
+      "Completed the QuodeSchool BTG Titans Cohort, applying AI-assisted engineering, Git workflows, and agile practices."
+    ],
     accent: "milkGreen"
   },
   {
@@ -223,7 +228,12 @@ const experiences = [
     company: "BICS GLOBAL",
     location: "Chennai, TN",
     period: "Internship",
-    details: "Mastered Machine Learning concepts and developed an end-to-end Insurance Prediction application using predictive ML models.",
+    details: "Deep-dived into Machine Learning algorithms and created predictive software applications.",
+    highlights: [
+      "Mastered core Machine Learning concepts including regression, classification algorithms, and data preprocessing.",
+      "Designed and deployed an end-to-end Insurance Risk & Premium Prediction application using predictive ML models.",
+      "Collaborated on structured software engineering principles, API integration, and model evaluation."
+    ],
     certificate: "https://www.linkedin.com/in/sajith-ahamed-fakrudeen-8997902b2/overlay/Position/2467591790/treasury/?profileId=ACoAAEs40fUBqL__1Wr8NnzUUxLhpjrilPdRveA",
     accent: "electricYellow"
   }
@@ -1987,9 +1997,20 @@ function ExperienceSection() {
                         {exp.company} // {exp.location}
                       </p>
 
-                      <p className="mt-3 text-sm leading-6 text-zinc-300 font-rajdhani">
-                        {exp.details}
-                      </p>
+                      {exp.highlights ? (
+                        <ul className="mt-3 space-y-2.5 text-sm leading-relaxed text-zinc-300 font-rajdhani">
+                          {exp.highlights.map((item, hIdx) => (
+                            <li key={hIdx} className="flex items-start gap-2.5">
+                              <span className={`mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full ${isYellow ? "bg-electricYellow" : "bg-milkGreen"} animate-pulse`} />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-3 text-sm leading-6 text-zinc-300 font-rajdhani">
+                          {exp.details}
+                        </p>
+                      )}
 
                       {exp.certificate && (
                         <a
