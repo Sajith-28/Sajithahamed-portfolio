@@ -223,7 +223,7 @@ const experiences = [
     company: "BICS GLOBAL",
     location: "Chennai, TN",
     period: "Internship",
-    details: "Developed enterprise software modules, collaborated on REST API delivery, and worked on deployment tasks.",
+    details: "Mastered Machine Learning concepts and developed an end-to-end Insurance Prediction application using predictive ML models.",
     accent: "electricYellow"
   }
 ];
