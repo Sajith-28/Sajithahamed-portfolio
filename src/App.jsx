@@ -63,6 +63,7 @@ import galleryTeam from "../gallery/1760327202473.jpeg";
 import galleryIITGate from "../gallery/1779340826653.jpeg";
 import galleryIITLogo from "../gallery/1779340826836.jpeg";
 import galleryPresentation from "../gallery/1779340827096.jpeg";
+import quodeBadge from "../gallery/sajith badge.jpeg";
 
 // Custom Hook for Scroll Progress & Hero Scroll Transition
 function useScrollState() {
@@ -2085,6 +2086,95 @@ function ExperienceSection() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FEATURED ACHIEVEMENT BADGE — Full-width showcase */}
+        <div className="reveal-on-scroll mt-10">
+          <div className="relative overflow-hidden border border-yellow-500/30 bg-black/60 backdrop-blur-xl clip-cyber"
+               style={{ boxShadow: '0 0 40px rgba(234, 179, 8, 0.12), inset 0 0 60px rgba(234, 179, 8, 0.03)' }}>
+            {/* Animated corner brackets */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-yellow-500/60" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-yellow-500/60" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-yellow-500/60" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-yellow-500/60" />
+
+            {/* Holographic shimmer overlay */}
+            <div className="holo-shimmer pointer-events-none absolute inset-0" />
+
+            {/* Scanning line animation */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent animate-pulse" style={{ top: '30%' }} />
+            </div>
+
+            <div className="relative flex flex-col items-center gap-8 p-8 sm:flex-row sm:p-10 lg:p-12">
+              {/* Badge Image — with glow effect */}
+              <div className="relative flex-shrink-0 w-full sm:w-[280px] lg:w-[320px]">
+                {/* Outer glow ring */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-yellow-500/20 via-transparent to-yellow-500/20 rounded-lg blur-md" />
+                <div className="relative overflow-hidden border-2 border-yellow-500/40 rounded-lg"
+                     style={{ boxShadow: '0 0 25px rgba(234, 179, 8, 0.2)' }}>
+                  <img
+                    src={quodeBadge}
+                    alt="QuodeSchool Hall of Achievement — Titans 2026 Cohort — Bridging The Gap (BTG) Internship Program"
+                    className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                  {/* Scan overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </div>
+
+              {/* Achievement Data Panel */}
+              <div className="flex-1 text-center sm:text-left">
+                <div className="mb-3 flex items-center justify-center gap-2 sm:justify-start">
+                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-500 animate-pulse" />
+                  <span className="font-techmono text-[10px] uppercase tracking-[0.25em] text-yellow-500/80">
+                    Featured Achievement
+                  </span>
+                </div>
+
+                <h3 className="font-chakra text-2xl font-bold uppercase tracking-tight text-white sm:text-3xl lg:text-4xl">
+                  Hall of{" "}
+                  <span className="text-yellow-500">Achievement</span>
+                </h3>
+
+                <p className="mt-2 font-techmono text-xs uppercase tracking-widest text-yellow-500/70">
+                  QuodeSchool · Titans 2026 Cohort
+                </p>
+
+                <p className="mt-4 text-sm leading-relaxed text-zinc-300 font-rajdhani max-w-lg">
+                  Recognized for excellence in the <span className="font-bold text-white">Bridging The Gap (BTG) Internship Program</span> — demonstrating dedication, discipline, and real-world readiness in AI and software development.
+                </p>
+
+                {/* Stat chips */}
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                  {["Real Learning", "Real Impact", "Real Readiness"].map((label) => (
+                    <span
+                      key={label}
+                      className="clip-cyber-tag border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 font-techmono text-[10px] uppercase tracking-widest text-yellow-500"
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Credential footer */}
+                <div className="mt-6 flex items-center justify-center gap-4 border-t border-white/10 pt-4 font-techmono text-[9px] uppercase tracking-widest text-zinc-500 sm:justify-start">
+                  <span className="flex items-center gap-1.5">
+                    <Award size={11} className="text-yellow-500" />
+                    <span>TITANS-2026</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck size={9} className="text-yellow-500" />
+                    <span>SAVEETHA ENGINEERING COLLEGE</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1 w-1 rounded-full bg-yellow-500 animate-pulse" />
+                    <span>VERIFIED</span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
