@@ -224,6 +224,7 @@ const experiences = [
     location: "Chennai, TN",
     period: "Internship",
     details: "Mastered Machine Learning concepts and developed an end-to-end Insurance Prediction application using predictive ML models.",
+    certificate: "https://www.linkedin.com/in/sajith-ahamed-fakrudeen-8997902b2/overlay/Position/2467591790/treasury/?profileId=ACoAAEs40fUBqL__1Wr8NnzUUxLhpjrilPdRveA",
     accent: "electricYellow"
   }
 ];
@@ -1989,6 +1990,18 @@ function ExperienceSection() {
                       <p className="mt-3 text-sm leading-6 text-zinc-300 font-rajdhani">
                         {exp.details}
                       </p>
+
+                      {exp.certificate && (
+                        <a
+                          href={exp.certificate}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`mt-3 inline-flex items-center gap-1.5 border border-white/10 bg-white/5 px-3 py-1 font-techmono text-[10px] uppercase tracking-widest ${roleColor} hover:bg-white/10 hover:border-white/30 transition clip-cyber-tag no-underline`}
+                        >
+                          <ExternalLink size={10} />
+                          <span>View Certificate</span>
+                        </a>
+                      )}
 
                       {/* Block hash + status row */}
                       <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-2 font-techmono text-[9px] uppercase tracking-widest text-zinc-500">
