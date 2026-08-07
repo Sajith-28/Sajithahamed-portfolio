@@ -229,6 +229,20 @@ const experiences = [
 
 const certifications = [
   {
+    title: "Fundamentals of Reinforcement Learning",
+    issuer: "University of Alberta · Coursera",
+    icon: BrainCircuit,
+    accent: "milkGreen",
+    link: "https://www.coursera.org/account/accomplishments/verify/7R62LARWC66M"
+  },
+  {
+    title: "Machine Learning using Python",
+    issuer: "Simplilearn · SkillUp",
+    icon: Cpu,
+    accent: "electricYellow",
+    link: "https://simpli-web.app.link/e/jF1nxbKYo5b"
+  },
+  {
     title: "Cisco Cyber Threat Management",
     issuer: "Cisco Networking Academy",
     icon: ShieldCheck,
@@ -2006,25 +2020,23 @@ function ExperienceSection() {
               </GlitchHeading>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                {certifications.map(({ title, issuer, icon: Icon, accent }, idx) => {
+                {certifications.map(({ title, issuer, icon: Icon, accent, link }, idx) => {
                   const isYellow = accent === "electricYellow";
                   const iconClass = isYellow
                     ? "border-electricYellow/40 bg-electricYellow/10 text-electricYellow group-hover:bg-electricYellow group-hover:text-black shadow-glow-yellow"
                     : "border-milkGreen/40 bg-milkGreen/10 text-milkGreen group-hover:bg-milkGreen group-hover:text-black shadow-glow";
                   const credId = `CRED-${String(idx + 1).padStart(3, "0")}-${idx % 2 === 0 ? "A" : "B"}`;
 
-                  return (
-                    <div
-                      key={title}
-                      className={`group relative clip-cyber-sm flex flex-col justify-between border border-white/10 bg-black/40 p-5 transition duration-300 hover-3d ${
-                        isYellow ? "hover:border-electricYellow/70 hover:bg-electricYellow/10" : "hover:border-milkGreen/70 hover:bg-milkGreen/10"
-                      }`}
-                    >
+                  const cardContent = (
+                    <>
                       <div className="mb-4 flex items-center justify-between">
                         <span className={`grid h-10 w-10 place-items-center border transition ${iconClass}`}>
                           <Icon size={18} />
                         </span>
-                        <Award size={16} className={isYellow ? "text-electricYellow" : "text-milkGreen"} />
+                        <div className="flex items-center gap-2">
+                          {link && <ExternalLink size={13} className={isYellow ? "text-electricYellow/60" : "text-milkGreen/60"} />}
+                          <Award size={16} className={isYellow ? "text-electricYellow" : "text-milkGreen"} />
+                        </div>
                       </div>
 
                       <div>
@@ -2047,6 +2059,29 @@ function ExperienceSection() {
                           VERIFIED
                         </span>
                       </div>
+                    </>
+                  );
+
+                  const cardClassName = `group relative clip-cyber-sm flex flex-col justify-between border border-white/10 bg-black/40 p-5 transition duration-300 hover-3d ${
+                    isYellow ? "hover:border-electricYellow/70 hover:bg-electricYellow/10" : "hover:border-milkGreen/70 hover:bg-milkGreen/10"
+                  }`;
+
+                  return link ? (
+                    <a
+                      key={title}
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${cardClassName} cursor-pointer no-underline`}
+                    >
+                      {cardContent}
+                    </a>
+                  ) : (
+                    <div
+                      key={title}
+                      className={cardClassName}
+                    >
+                      {cardContent}
                     </div>
                   );
                 })}
