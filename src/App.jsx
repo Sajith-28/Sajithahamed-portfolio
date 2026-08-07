@@ -214,8 +214,8 @@ const experiences = [
     role: "AI Forward Intern",
     company: "Quodeworks",
     location: "Chennai, TN",
-    period: "Internship",
-    details: "Engineered Python backend services & REST APIs with FastAPI and MongoDB, while building n8n workflows and AI automation solutions during the BTG Titans Cohort.",
+    period: "Present",
+    details: "Building Python backend services & REST APIs with FastAPI, MongoDB, and Azure, while developing n8n workflows and AI automation solutions.",
     accent: "milkGreen"
   },
   {
