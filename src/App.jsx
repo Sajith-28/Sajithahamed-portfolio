@@ -215,7 +215,7 @@ const experiences = [
     company: "Quodeworks",
     location: "Chennai, TN",
     period: "Internship",
-    details: "Engineered Python backend services & REST APIs using FastAPI and MongoDB during the BTG Titans Cohort, applying AI-assisted workflows and agile Git practices.",
+    details: "Engineered Python backend services & REST APIs with FastAPI and MongoDB, while building n8n workflows and AI automation solutions during the BTG Titans Cohort.",
     accent: "milkGreen"
   },
   {
